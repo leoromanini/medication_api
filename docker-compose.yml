@@ -15,4 +15,4 @@ services:
     restart: always
 
 volumes:
-  mysql_data:  # Define a volume for persistent storage
+  mysql_data:

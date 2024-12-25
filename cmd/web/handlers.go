@@ -52,7 +52,6 @@ func (app *application) medicationsList(w http.ResponseWriter, r *http.Request) 
 		app.serverError(w, err)
 		return
 	}
-
 }
 
 func (app *application) medicationGet(w http.ResponseWriter, r *http.Request) {
@@ -83,7 +82,7 @@ func (app *application) medicationUpdate(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	medication, err = app.medications.RefreshFromDB(medication.ID)
+	medication, err = app.medications.Get(medication.ID)
 	if err != nil {
 		app.serverError(w, err)
 		return
@@ -109,13 +108,29 @@ func (app *application) medicationCreate(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	medication, err = app.medications.RefreshFromDB(medicationID)
+	medication, err = app.medications.Get(medicationID)
 	if err != nil {
 		app.serverError(w, err)
 		return
 	}
 
 	render.Status(r, http.StatusCreated)
+	if err := render.Render(w, r, MedicationResponse(medication)); err != nil {
+		app.serverError(w, err)
+		return
+	}
+}
+
+func (app *application) medicationDelete(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	medication := ctx.Value("medication").(*models.Medications)
+
+	err := app.medications.Delete(medication.ID)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
 	if err := render.Render(w, r, MedicationResponse(medication)); err != nil {
 		app.serverError(w, err)
 		return

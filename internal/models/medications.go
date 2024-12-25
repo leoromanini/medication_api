@@ -112,10 +112,23 @@ func (model *MedicationModel) Update(id int, name string, dosage string, form st
 	return nil
 }
 
-func (model *MedicationModel) RefreshFromDB(id int) (*Medications, error) {
-	medication, err := model.Get(id)
+func (model *MedicationModel) Delete(id int) error {
+	stmt := `UPDATE medications SET is_active=0
+			 WHERE is_active = 1 AND id = ?`
+
+	result, err := model.DB.Exec(stmt, id)
 	if err != nil {
-		return &Medications{}, err
+		return err
 	}
-	return medication, nil
+
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		return err
+	}
+
+	if rowsAffected == 0 {
+		return ErrAlreadyDeleted
+	}
+
+	return nil
 }

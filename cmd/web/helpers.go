@@ -29,3 +29,7 @@ func (app *application) notFound(w http.ResponseWriter) {
 func (app *application) badRequest(w http.ResponseWriter) {
 	app.clientError(w, http.StatusBadRequest)
 }
+
+func (app *application) noContent(w http.ResponseWriter) {
+	app.clientError(w, http.StatusNoContent)
+}
