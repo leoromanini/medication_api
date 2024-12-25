@@ -21,6 +21,11 @@ func (app *application) notFound(w http.ResponseWriter) {
 	app.clientError(w, http.StatusNotFound)
 }
 
-func (app *application) unprocessableEntity(w http.ResponseWriter) {
-	app.clientError(w, http.StatusUnprocessableEntity)
+// TODO: Return that for validation errors
+// func (app *application) unprocessableEntity(w http.ResponseWriter) {
+// 	app.clientError(w, http.StatusUnprocessableEntity)
+// }
+
+func (app *application) badRequest(w http.ResponseWriter) {
+	app.clientError(w, http.StatusBadRequest)
 }

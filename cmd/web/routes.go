@@ -14,12 +14,12 @@ func (app *application) routes() http.Handler {
 
 	r.Route("/medications", func(r chi.Router) {
 		r.Get("/", app.medicationsList)
-		r.Post("/", app.medicationsCreate)
+		r.Post("/", app.medicationCreate)
 
 		r.Route("/{medicationID}", func(r chi.Router) {
 			r.Use(app.medicationCtx)
 			r.Get("/", app.medicationGet)
-			// r.Patch("/", app.medications.Update)
+			r.Patch("/", app.medicationUpdate)
 		})
 	})
 

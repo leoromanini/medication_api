@@ -75,7 +75,7 @@ func (model *MedicationModel) Get(id int) (*Medications, error) {
 
 func (model *MedicationModel) Create(name string, dosage string, form string) (int, error) {
 	stmt := `INSERT INTO medications (name, dosage, form)
-    		 VALUES(?, ?, ?))`
+    		 VALUES(?, ?, ?)`
 
 	result, err := model.DB.Exec(stmt, name, dosage, form)
 	if err != nil {
@@ -91,23 +91,31 @@ func (model *MedicationModel) Create(name string, dosage string, form string) (i
 }
 
 func (model *MedicationModel) Update(id int, name string, dosage string, form string) error {
-	stmt := `UPDATE medications SET (name, dosage, form)
-			 VALUES (?,?,?)
+	stmt := `UPDATE medications SET name=?, dosage=?, form=?
 			 WHERE is_active = 1 AND id = ?`
 
-	result, err := model.DB.Exec(stmt, name, dosage, form, id)
+	_, err := model.DB.Exec(stmt, name, dosage, form, id)
 	if err != nil {
 		return err
 	}
 
-	rowsAffected, err := result.RowsAffected()
-	if err != nil {
-		return err
-	}
+	// TODO: Think if it's required to log when no record was updated
+	// rowsAffected, err := result.RowsAffected()
+	// if err != nil {
+	// 	return err
+	// }
 
-	if rowsAffected == 0 {
-		return ErrNoRecord
-	}
+	// if rowsAffected == 0 {
+	// 	return ErrNoRecord
+	// }
 
 	return nil
+}
+
+func (model *MedicationModel) RefreshFromDB(id int) (*Medications, error) {
+	medication, err := model.Get(id)
+	if err != nil {
+		return &Medications{}, err
+	}
+	return medication, nil
 }
