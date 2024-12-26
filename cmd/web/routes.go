@@ -26,7 +26,7 @@ func (app *application) routes() http.Handler {
 				r.Use(app.medicationCtx)
 				r.Get("/", app.medicationGet)
 				r.Patch("/", app.medicationUpdate)
-				r.Delete("/{medicationID}", app.medicationDelete)
+				r.Delete("/", app.medicationDelete)
 			})
 		})
 	})

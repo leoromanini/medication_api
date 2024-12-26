@@ -75,6 +75,45 @@ func TestMedicationGet(t *testing.T) {
 	}
 }
 
+func TestMedicationDelete(t *testing.T) {
+	tests := []struct {
+		name     string
+		urlPath  string
+		wantCode int
+		wantBody string
+	}{
+		{
+			name:     "Valid DELETE",
+			urlPath:  "/v1/medications/1",
+			wantCode: http.StatusOK,
+			wantBody: mockedWantBody,
+		},
+		{
+			name:     "Valid DELETE with trailing slash",
+			urlPath:  "/v1/medications/1/",
+			wantCode: http.StatusOK,
+			wantBody: mockedWantBody,
+		},
+		{
+			name:     "Non-existing DELETE",
+			urlPath:  "/v1/medications/10",
+			wantCode: http.StatusNotFound,
+		},
+	}
+
+	app := newTestApplication(t)
+	ts := newTestServer(t, app.routes())
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			code, _, body := ts.request(t, http.MethodDelete, tt.urlPath, strings.NewReader(""))
+			assert.Equal(t, tt.wantCode, code)
+			assert.Contains(t, body, tt.wantBody)
+		})
+
+	}
+}
+
 func TestMedicationList(t *testing.T) {
 	tests := []struct {
 		name     string
@@ -216,34 +255,6 @@ func TestMedicationPatch(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			code, _, body := ts.request(t, http.MethodPatch, tt.urlPath, strings.NewReader(tt.inputBody))
-			assert.Equal(t, tt.wantCode, code)
-			assert.Contains(t, body, tt.wantBody)
-		})
-
-	}
-}
-
-func TestMedicationDelete(t *testing.T) {
-	tests := []struct {
-		name     string
-		urlPath  string
-		wantCode int
-		wantBody string
-	}{
-		{
-			name:     "Valid DELETE",
-			urlPath:  "/v1/medications/1",
-			wantCode: http.StatusOK,
-			wantBody: mockedWantBody,
-		},
-	}
-
-	app := newTestApplication(t)
-	ts := newTestServer(t, app.routes())
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			code, _, body := ts.request(t, http.MethodDelete, tt.urlPath, strings.NewReader(""))
 			assert.Equal(t, tt.wantCode, code)
 			assert.Contains(t, body, tt.wantBody)
 		})

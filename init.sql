@@ -1,3 +1,5 @@
+-- Application resources init
+
 USE healthcare;
 
 CREATE TABLE medications (
@@ -10,10 +12,11 @@ CREATE TABLE medications (
     last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id)
 );
-CREATE INDEX idx_medications_created ON medications(created);
--- TODO: Refine index;
+CREATE INDEX idx_medications_is_active ON medications(is_active);
+-- TODO: In a real case scenario, index would demand more analisys to be set;
 
 -- Add some dummy records so our application is already populated when start
+-- Holpefully this will give a little help when testing
 INSERT INTO medications (name, dosage, form) VALUES (
     'Paracetamol',
     '500 mg',
@@ -34,6 +37,13 @@ INSERT INTO medications (name, dosage, form) VALUES (
 
 -- Granting just the required permissions for the user that our REST API will use
 CREATE USER 'web'@'%';
-GRANT ALL PRIVILEGES ON healthcare.* TO 'web'@'%';
+GRANT SELECT, INSERT, UPDATE ON healthcare.medications TO 'web'@'%';
 ALTER USER 'web'@'%' IDENTIFIED BY 'password';
+
+-- Integration tests resources init
+CREATE DATABASE test_healthcare CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER 'test_web'@'%';
+GRANT ALL PRIVILEGES ON test_healthcare.* TO 'test_web'@'%';
+ALTER USER 'test_web'@'%' IDENTIFIED BY 'test_password';
+
 FLUSH PRIVILEGES;
