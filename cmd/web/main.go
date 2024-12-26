@@ -14,7 +14,7 @@ import (
 type application struct {
 	errorLog    *log.Logger
 	infoLog     *log.Logger
-	medications *models.MedicationModel
+	medications *models.MedicationsModelInterface
 }
 
 func main() {

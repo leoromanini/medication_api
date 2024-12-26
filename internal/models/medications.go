@@ -15,6 +15,14 @@ type Medications struct {
 	LastUpdate time.Time
 }
 
+type MedicationsModelInterface interface {
+	Create(name string, dosage string, form string) (int, error)
+	Get(id int) (*Medications, error)
+	List() ([]*Medications, error)
+	Update(id int, name string, dosage string, form string) error
+	Delete(id int) error
+}
+
 type MedicationModel struct {
 	DB *sql.DB
 }
@@ -116,18 +124,9 @@ func (model *MedicationModel) Delete(id int) error {
 	stmt := `UPDATE medications SET is_active=0
 			 WHERE is_active = 1 AND id = ?`
 
-	result, err := model.DB.Exec(stmt, id)
+	_, err := model.DB.Exec(stmt, id)
 	if err != nil {
 		return err
-	}
-
-	rowsAffected, err := result.RowsAffected()
-	if err != nil {
-		return err
-	}
-
-	if rowsAffected == 0 {
-		return ErrAlreadyDeleted
 	}
 
 	return nil

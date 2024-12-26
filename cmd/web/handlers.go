@@ -136,3 +136,7 @@ func (app *application) medicationDelete(w http.ResponseWriter, r *http.Request)
 		return
 	}
 }
+
+func healthCheck(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte(`{"status": "ok"}`))
+}
