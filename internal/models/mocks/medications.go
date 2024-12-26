@@ -23,7 +23,7 @@ func (model *MedicationModel) Create(name string, dosage string, form string) (i
 
 func (model *MedicationModel) Get(id int) (*models.Medications, error) {
 	switch id {
-	case 1:
+	case 1, 2:
 		return mockMedication, nil
 	default:
 		return nil, models.ErrNoRecord
@@ -31,16 +31,13 @@ func (model *MedicationModel) Get(id int) (*models.Medications, error) {
 }
 
 func (model *MedicationModel) Update(id int, name string, dosage string, form string) error {
-	// TODO: To be implemented
 	return nil
 }
 
 func (model *MedicationModel) Delete(id int) error {
-	// TODO: To be implemented
 	return nil
 }
 
 func (model *MedicationModel) List() ([]*models.Medications, error) {
-	// TODO: To be implemented
-	return []*models.Medications{}, nil
+	return []*models.Medications{mockMedication}, nil
 }

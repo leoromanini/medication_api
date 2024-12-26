@@ -5,6 +5,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/go-chi/render"
 )
 
 func (app *application) routes() http.Handler {
@@ -14,7 +15,7 @@ func (app *application) routes() http.Handler {
 	r.Use(middleware.RequestID)
 	r.Use(middleware.Recoverer)
 	r.Use(secureHeaders)
-	// r.Use(render.SetContentType(render.ContentTypeJSON))
+	r.Use(render.SetContentType(render.ContentTypeJSON))
 
 	r.Route("/v1", func(r chi.Router) {
 		r.Route("/medications", func(r chi.Router) {
