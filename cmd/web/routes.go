@@ -8,6 +8,7 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/httprate"
 	"github.com/go-chi/render"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 func (app *application) routes() http.Handler {
@@ -37,6 +38,10 @@ func (app *application) routes() http.Handler {
 	r.Route("/health", func(r chi.Router) {
 		r.Get("/", healthCheck)
 	})
+
+	// TODO: Just connected Prometheus service into our REST API (on port 9090).
+	// I didn't configured any custom metric.
+	r.Handle("/metrics", promhttp.Handler())
 
 	return r
 }

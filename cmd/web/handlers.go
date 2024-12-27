@@ -86,7 +86,6 @@ func (app *application) medicationGet(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// TODO: Add validations here too.
 func (app *application) medicationUpdate(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	medication := ctx.Value("medication").(*models.Medications)
