@@ -25,6 +25,8 @@ func newTestServer(t *testing.T, h http.Handler) *testServer {
 	return &testServer{ts}
 }
 
+// TODO: Maybe remove get and post from here and keep just the request.
+
 func (ts *testServer) get(t *testing.T, urlPath string) (int, http.Header, string) {
 	rs, err := ts.Client().Get(ts.URL + urlPath)
 	if err != nil {

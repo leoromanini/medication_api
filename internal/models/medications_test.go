@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-// TODO: Currently just a simple integration test is implemented here in order to demonstrate the capability.
+// TODO: Currently just a single/simple integration test is implemented here in order to demonstrate the capability.
 // In a real scenario this would be more complex.
 
 func TestMedicationModelGet(t *testing.T) {

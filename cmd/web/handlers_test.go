@@ -180,7 +180,7 @@ func TestMedicationCreate(t *testing.T) {
 			name:      "Invalid form",
 			urlPath:   "/v1/medications",
 			wantCode:  http.StatusBadRequest,
-			inputBody: `{"name": "valid", "dosage": true, "form": 100}`,
+			inputBody: `{"name": "valid", "dosage": "valid", "form": 100}`,
 		},
 		{
 			name:      "Empty body",
@@ -188,7 +188,33 @@ func TestMedicationCreate(t *testing.T) {
 			wantCode:  http.StatusBadRequest,
 			inputBody: `{}`,
 		},
-		// TODO: Test validations for eventual required fields here.
+		{
+			name:      "Required name validation",
+			urlPath:   "/v1/medications",
+			wantCode:  http.StatusUnprocessableEntity,
+			inputBody: `{"dosage": "valid", "form": "valid"}`,
+		},
+		{
+			name:      "Exceed name validation",
+			urlPath:   "/v1/medications",
+			wantCode:  http.StatusUnprocessableEntity,
+			inputBody: `{"name": "` + strings.Repeat("a", 101) + `"}`,
+			wantBody:  "Name cannot exceed 100 characters",
+		},
+		{
+			name:      "Exceed dosage validation",
+			urlPath:   "/v1/medications",
+			wantCode:  http.StatusUnprocessableEntity,
+			inputBody: `{"name": "foo", "dosage": "` + strings.Repeat("a", 21) + `"}`,
+			wantBody:  "Name cannot exceed 20 characters",
+		},
+		{
+			name:      "Exceed form validation",
+			urlPath:   "/v1/medications",
+			wantCode:  http.StatusUnprocessableEntity,
+			inputBody: `{"name": "foo", "form": "` + strings.Repeat("a", 21) + `"}`,
+			wantBody:  "Name cannot exceed 20 characters",
+		},
 	}
 
 	app := newTestApplication(t)

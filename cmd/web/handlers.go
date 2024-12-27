@@ -10,6 +10,7 @@ import (
 
 type MedicationsRequest struct {
 	*models.Medications
+	validationsErrors []ValidationError
 }
 
 type MedicationsResponse struct {
@@ -17,10 +18,31 @@ type MedicationsResponse struct {
 }
 
 func (m *MedicationsRequest) Bind(r *http.Request) error {
-
 	if m.Medications == nil {
-		return errors.New("missing required Medications fields")
+		return errors.New("missing Medications fields")
 	}
+
+	if m.Medications.Name == "" {
+		m.validationsErrors = appendValidationError(m.validationsErrors, "name", "Name is a required field")
+	}
+
+	if len(m.Medications.Name) > 100 {
+		m.validationsErrors = appendValidationError(m.validationsErrors, "name", "Name cannot exceed 100 characters")
+	}
+
+	if len(m.Medications.Dosage) > 20 {
+		m.validationsErrors = appendValidationError(m.validationsErrors, "dosage", "Name cannot exceed 20 characters")
+	}
+
+	if len(m.Medications.Form) > 20 {
+		m.validationsErrors = appendValidationError(m.validationsErrors, "form", "Name cannot exceed 20 characters")
+	}
+
+	if len(m.validationsErrors) > 0 {
+		return ErrValidation
+	}
+
+	// TODO: Additional business logic validations would be placed here.
 
 	return nil
 }
@@ -97,6 +119,14 @@ func (app *application) medicationUpdate(w http.ResponseWriter, r *http.Request)
 func (app *application) medicationCreate(w http.ResponseWriter, r *http.Request) {
 	data := &MedicationsRequest{}
 	if err := render.Bind(r, data); err != nil {
+		if errors.Is(err, ErrValidation) {
+			app.unprocessableEntity(w)
+			if err := render.Render(w, r, ValidationsErrorResponse(data.validationsErrors)); err != nil {
+				app.serverError(w, err)
+				return
+			}
+			return
+		}
 		app.badRequest(w)
 		return
 	}
