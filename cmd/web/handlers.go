@@ -86,19 +86,27 @@ func (app *application) medicationGet(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// TODO: Add validations here too.
 func (app *application) medicationUpdate(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	medication := ctx.Value("medication").(*models.Medications)
 
 	data := &MedicationsRequest{Medications: medication}
-	err := render.Bind(r, data)
-	if err != nil {
+	if err := render.Bind(r, data); err != nil {
+		if errors.Is(err, ErrValidation) {
+			app.unprocessableEntity(w)
+			if err := render.Render(w, r, ValidationsErrorResponse(data.validationsErrors)); err != nil {
+				app.serverError(w, err)
+				return
+			}
+			return
+		}
 		app.badRequest(w)
 		return
 	}
 
 	medication = data.Medications
-	err = app.medications.Update(medication.ID, medication.Name, medication.Dosage, medication.Form)
+	err := app.medications.Update(medication.ID, medication.Name, medication.Dosage, medication.Form)
 	if err != nil {
 		app.serverError(w, err)
 		return

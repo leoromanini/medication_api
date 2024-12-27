@@ -8,32 +8,40 @@ import (
 )
 
 // TODO: Currently just a single/simple integration test is implemented here in order to demonstrate the capability.
-// In a real scenario this would be more complex.
+// Missing implement tests for others model functions.
 
 func TestMedicationModelGet(t *testing.T) {
 	tests := []struct {
-		name           string
-		medicationID   int
-		medicationName string
-		expectError    bool
+		name             string
+		medicationID     int
+		medicationName   string
+		medicationDosage string
+		medicationForm   string
+		expectError      bool
 	}{
 		{
-			name:           "Valid ID 1",
-			medicationID:   1,
-			medicationName: "Amoxicillin",
-			expectError:    false,
+			name:             "Valid ID 1",
+			medicationID:     1,
+			medicationName:   "Amoxicillin",
+			medicationDosage: "250 mg",
+			medicationForm:   "Tablet",
+			expectError:      false,
 		},
 		{
-			name:           "Valid ID 2",
-			medicationID:   2,
-			medicationName: "Ozempic",
-			expectError:    false,
+			name:             "Valid ID 2",
+			medicationID:     2,
+			medicationName:   "Ozempic",
+			medicationDosage: "0.25 mg",
+			medicationForm:   "Pen",
+			expectError:      false,
 		},
 		{
-			name:           "Valid ID 3",
-			medicationID:   3,
-			medicationName: "Citalopram",
-			expectError:    false,
+			name:             "Valid ID 3",
+			medicationID:     3,
+			medicationName:   "Citalopram",
+			medicationDosage: "30 mg",
+			medicationForm:   "Capsule",
+			expectError:      false,
 		},
 		{
 			name:         "Zero ID",
@@ -60,6 +68,8 @@ func TestMedicationModelGet(t *testing.T) {
 				return
 			}
 			assert.Equal(t, medication.Name, tt.medicationName)
+			assert.Equal(t, medication.Dosage, tt.medicationDosage)
+			assert.Equal(t, medication.Form, tt.medicationForm)
 			assert.Nil(t, err)
 
 		})

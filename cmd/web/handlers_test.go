@@ -273,6 +273,33 @@ func TestMedicationPatch(t *testing.T) {
 			wantCode:  http.StatusBadRequest,
 			inputBody: `{"form": ["invalid"]}`,
 		},
+		{
+			name:      "Required name validation",
+			urlPath:   "/v1/medications/1",
+			wantCode:  http.StatusUnprocessableEntity,
+			inputBody: `{"name": ""}`,
+		},
+		{
+			name:      "Exceed name validation",
+			urlPath:   "/v1/medications/1",
+			wantCode:  http.StatusUnprocessableEntity,
+			inputBody: `{"name": "` + strings.Repeat("a", 101) + `"}`,
+			wantBody:  "Name cannot exceed 100 characters",
+		},
+		{
+			name:      "Exceed dosage validation",
+			urlPath:   "/v1/medications/1",
+			wantCode:  http.StatusUnprocessableEntity,
+			inputBody: `{"name": "foo", "dosage": "` + strings.Repeat("a", 21) + `"}`,
+			wantBody:  "Name cannot exceed 20 characters",
+		},
+		{
+			name:      "Exceed form validation",
+			urlPath:   "/v1/medications/1",
+			wantCode:  http.StatusUnprocessableEntity,
+			inputBody: `{"name": "foo", "form": "` + strings.Repeat("a", 21) + `"}`,
+			wantBody:  "Name cannot exceed 20 characters",
+		},
 	}
 
 	app := newTestApplication(t)
