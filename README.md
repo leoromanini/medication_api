@@ -15,6 +15,7 @@ It is a example for making simple RESTful API with Go using [go-chi/chi](https:-
 ## Running all the services on Docker:
 ```bash
 git clone git@github.com:leoromanini/medication_api.git
+cd medication_api
 make run
 ```
 ### Services list
@@ -31,7 +32,6 @@ make run
 #### /medications/:id
 * `GET`     : Get a medications
 * `PATCH`   : Update a medications
-* `POST`    : Create a new medications
 * `DELETE`  : Delete a medications
 
 #### /health
@@ -39,6 +39,8 @@ make run
 
 #### /metrics
 * `GET` : Raw metrics outputs used by Prometheus
+
+**Note:** You can check some example requests in raw [cURL](./_examples/curls.md) or [Postman Collection](./_examples/medications.postman_collection.json) in [_examples](./_examples/) folder.
 
 ## More commands
 
@@ -104,10 +106,14 @@ make run-locally   # Will start web app locally + docker mysql
 ├── docker-compose.yaml         - docker compose service definitions
 ├── Dockerfile                  - go web app Dokerfile
 ├── init.sql                    - script used to create table, users and ingest sample initial data on DB
-└── prometheus.yaml             - prometheus config file
+├── prometheus.yaml             - prometheus config file
+└── _examples                   - examples path
+    ├── curls.md                - cURL basic examples of API's usage
+    └── *.postman_collection    - postman colletion with some basic examples of API's usage
 ```
 
 ## Next steps / Possible improvements
+- Pagination.
 - Support Authentication.
 - Add Swagger.
 - Add E2E tests.
