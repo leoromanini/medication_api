@@ -108,8 +108,8 @@ make run-locally   # Will start web app locally + docker mysql
 ├── init.sql                    - script used to create table, users and ingest sample initial data on DB
 ├── prometheus.yaml             - prometheus config file
 └── _examples                   - examples path
-    ├── curls.md                - cURL basic examples of API's usage
-    └── *.postman_collection    - postman colletion with some basic examples of API's usage
+    ├── curls.md                    - cURL basic examples of API's usage
+    └── *.postman_collection        - postman colletion with some basic examples of API's usage
 ```
 
 ## Next steps / Possible improvements
