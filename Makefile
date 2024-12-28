@@ -63,8 +63,7 @@ run-locally: tidy
 
 	until [ "$$(docker inspect --format='{{.State.Health.Status}}' $$(docker-compose ps -q mysql))" = "healthy" ]; do \
 		echo "Waiting for MySQL to be healthy..."; \
-		sleep 1; \
+		sleep 5; \
 	done
-	sleep 5;
 
 	go run ${main_package_path} -dsn "web:password@tcp(localhost:3306)/healthcare?parseTime=true"
