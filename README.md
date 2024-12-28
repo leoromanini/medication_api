@@ -107,9 +107,11 @@ make run-locally   # Will start web app locally + docker mysql
 ├── Dockerfile                  - go web app Dokerfile
 ├── init.sql                    - script used to create table, users and ingest sample initial data on DB
 ├── prometheus.yaml             - prometheus config file
-└── _examples                   - examples path
-    ├── curls.md                    - cURL basic examples of API's usage
-    └── *.postman_collection        - postman colletion with some basic examples of API's usage
+├── _examples                   - examples path
+│    ├── curls.md                    - cURL basic examples of API's usage
+│    └── *.postman_collection        - postman colletion with some basic examples of API's usage
+└── .github/workflows
+    └── go.yml                  - simple Go CI on Github Actions
 ```
 
 ## Next steps / Possible improvements
