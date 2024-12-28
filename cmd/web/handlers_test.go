@@ -14,7 +14,7 @@ func TestHealthCheck(t *testing.T) {
 	app := newTestApplication(t)
 	ts := newTestServer(t, app.routes())
 
-	code, _, body := ts.get(t, "/health")
+	code, _, body := ts.request(t, http.MethodGet, "/health", strings.NewReader(""))
 	assert.Equal(t, http.StatusOK, code)
 	assert.Equal(t, body, `{"status": "ok"}`)
 }
@@ -67,7 +67,7 @@ func TestMedicationGet(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			code, _, body := ts.get(t, tt.urlPath)
+			code, _, body := ts.request(t, http.MethodGet, tt.urlPath, strings.NewReader(""))
 			assert.Equal(t, tt.wantCode, code)
 			assert.Contains(t, body, tt.wantBody)
 		})
@@ -140,7 +140,7 @@ func TestMedicationList(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			code, _, body := ts.get(t, tt.urlPath)
+			code, _, body := ts.request(t, http.MethodGet, tt.urlPath, strings.NewReader(""))
 			assert.Equal(t, tt.wantCode, code)
 			assert.Contains(t, body, tt.wantBody)
 
@@ -222,7 +222,7 @@ func TestMedicationCreate(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			code, _, body := ts.post(t, tt.urlPath, strings.NewReader(tt.inputBody))
+			code, _, body := ts.request(t, http.MethodPost, tt.urlPath, strings.NewReader(tt.inputBody))
 			assert.Equal(t, tt.wantCode, code)
 			assert.Contains(t, body, tt.wantBody)
 
