@@ -4,19 +4,23 @@ This project focuses on the design and implementation of a RESTful API using Go 
 It is a example for making simple RESTful API with Go using [go-chi/chi](https:-github.com/go-chi/chi), a lightweight, idiomatic and composable router for building Go HTTP services.
 
 ## Requirements
-- [git](https:-git-scm.com/downloads) >= 2.45.2
+- [git](https:-git-scm.com/downloads)
 - [docker engine](https:-docs.docker.com/engine/install/) >= v27.0.3
 - [docker compose](https:-docs.docker.com/compose/install/) >= v2.28.1
 - [make](https:-www.gnu.org/software/make/) - GNU Make 4.3
 - [Golang](https:-go.dev/doc/install) >= 1.23.4 - For running the app outside Docker.
 
-**Note:** The versions listed above were previously tested with this codebase and can be used as a reference, but **is not required for have them exactly**. Older versions might lead to unexpected issues though.
+**Note:** The versions listed above were previously tested with this codebase and can be used as a reference, but **is not required for you to have them exactly**. Older versions might lead to unexpected issues though.
 
 ## Running all the services on Docker:
 ```bash
 git clone git@github.com:leoromanini/medication_api.git
 make run
 ```
+### Services list
+- web (Golang REST API)
+- mysql
+- prometheus
 
 ## API Endpoint : http://localhost:4000
 
