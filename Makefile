@@ -65,5 +65,6 @@ run-locally: tidy
 		echo "Waiting for MySQL to be healthy..."; \
 		sleep 1; \
 	done
+	sleep 5;
 
 	go run ${main_package_path} -dsn "web:password@tcp(localhost:3306)/healthcare?parseTime=true"
