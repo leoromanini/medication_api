@@ -107,16 +107,6 @@ func (model *MedicationModel) Update(id int, name string, dosage string, form st
 		return err
 	}
 
-	// TODO: Think if it's required to log when no record was updated
-	// rowsAffected, err := result.RowsAffected()
-	// if err != nil {
-	// 	return err
-	// }
-
-	// if rowsAffected == 0 {
-	// 	return ErrNoRecord
-	// }
-
 	return nil
 }
 

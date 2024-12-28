@@ -10,6 +10,10 @@ import (
 	"github.com/leoromanini/medication_api/internal/models"
 )
 
+type contextKey string
+
+const medicationContextKey = contextKey("medication")
+
 func secureHeaders(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("X-Content-Type-Options", "nosniff")
@@ -34,7 +38,7 @@ func (app *application) medicationCtx(next http.Handler) http.Handler {
 			return
 		}
 
-		ctx := context.WithValue(r.Context(), "medication", medication)
+		ctx := context.WithValue(r.Context(), medicationContextKey, medication)
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }

@@ -1,4 +1,4 @@
-version: '3.8'
+version: '2.4'
 
 services:
   web:
@@ -11,7 +11,8 @@ services:
       - monitoring
     restart: always
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
 
   mysql:
     image: mysql:8.0
@@ -31,7 +32,7 @@ services:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
       timeout: 5s
-      retries: 10
+      retries: 3
 
   prometheus:
     image: prom/prometheus:v3.0.1
@@ -41,8 +42,8 @@ services:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
     networks:
       - monitoring
-    depends_on:
-      - web
+    # depends_on:
+    #   - web
 
 volumes:
   mysql_data:

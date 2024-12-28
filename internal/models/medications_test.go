@@ -11,6 +11,12 @@ import (
 // Missing implement tests for others model functions.
 
 func TestMedicationModelGet(t *testing.T) {
+
+	// Skip the test if the "-short" flag is provided when running the test.
+	if testing.Short() {
+		t.Skip("models: skipping integration test")
+	}
+
 	tests := []struct {
 		name             string
 		medicationID     int
