@@ -36,7 +36,7 @@ func (app *application) routes() http.Handler {
 	})
 
 	r.Route("/health", func(r chi.Router) {
-		r.Get("/", healthCheck)
+		r.Get("/", app.healthCheck)
 	})
 
 	// TODO: Just connected Prometheus service into our REST API (on port 9090).

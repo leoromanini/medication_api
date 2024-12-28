@@ -17,36 +17,6 @@ type MedicationsResponse struct {
 	*models.Medications
 }
 
-func (m *MedicationsRequest) Bind(r *http.Request) error {
-	if m.Medications == nil {
-		return errors.New("missing Medications fields")
-	}
-
-	if m.Medications.Name == "" {
-		m.validationsErrors = appendValidationError(m.validationsErrors, "name", "Name is a required field")
-	}
-
-	if len(m.Medications.Name) > 100 {
-		m.validationsErrors = appendValidationError(m.validationsErrors, "name", "Name cannot exceed 100 characters")
-	}
-
-	if len(m.Medications.Dosage) > 20 {
-		m.validationsErrors = appendValidationError(m.validationsErrors, "dosage", "Name cannot exceed 20 characters")
-	}
-
-	if len(m.Medications.Form) > 20 {
-		m.validationsErrors = appendValidationError(m.validationsErrors, "form", "Name cannot exceed 20 characters")
-	}
-
-	if len(m.validationsErrors) > 0 {
-		return ErrValidation
-	}
-
-	// TODO: Additional business logic validations would be placed here.
-
-	return nil
-}
-
 func (rd *MedicationsResponse) Render(w http.ResponseWriter, r *http.Request) error {
 	return nil
 }
@@ -174,6 +144,7 @@ func (app *application) medicationDelete(w http.ResponseWriter, r *http.Request)
 	}
 }
 
-func healthCheck(w http.ResponseWriter, r *http.Request) {
+func (app *application) healthCheck(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	w.Write([]byte(`{"status": "ok"}`))
 }
