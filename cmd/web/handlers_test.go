@@ -8,17 +8,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestHealthCheck(t *testing.T) {
-	t.Parallel()
-
-	app := newTestApplication(t)
-	ts := newTestServer(t, app.routes())
-
-	code, _, body := ts.request(t, http.MethodGet, "/health", strings.NewReader(""))
-	assert.Equal(t, http.StatusOK, code)
-	assert.Equal(t, body, `{"status": "ok"}`)
-}
-
 var mockedWantBody = `{"ID":1,"Name":"Ibuprofen","Dosage":"400 mg","Form":"Capsule"`
 
 func TestMedicationGet(t *testing.T) {
@@ -338,4 +327,25 @@ func TestMedicationPatch(t *testing.T) {
 		})
 
 	}
+}
+
+func TestHealthCheck(t *testing.T) {
+	t.Parallel()
+
+	app := newTestApplication(t)
+	ts := newTestServer(t, app.routes())
+
+	code, _, body := ts.request(t, http.MethodGet, "/health", strings.NewReader(""))
+	assert.Equal(t, http.StatusOK, code)
+	assert.Equal(t, body, `{"status": "ok"}`)
+}
+
+func TestHomePage(t *testing.T) {
+	t.Parallel()
+
+	app := newTestApplication(t)
+	ts := newTestServer(t, app.routes())
+
+	code, _, _ := ts.request(t, http.MethodGet, "/", strings.NewReader(""))
+	assert.Equal(t, http.StatusOK, code)
 }

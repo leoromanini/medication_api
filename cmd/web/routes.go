@@ -18,6 +18,7 @@ func (app *application) routes() http.Handler {
 	r.Use(middleware.RequestID)
 	r.Use(middleware.Recoverer)
 	r.Use(secureHeaders)
+	r.Use(jsonContentTypeHeaders)
 	r.Use(httprate.LimitByIP(100, 1*time.Minute))
 	r.Use(render.SetContentType(render.ContentTypeJSON))
 
@@ -40,8 +41,10 @@ func (app *application) routes() http.Handler {
 	})
 
 	// TODO: Just connected Prometheus service into our REST API (on port 9090).
-	// I didn't configured any custom metric.
+	// I didn't configured any custom metric yet.
 	r.Handle("/metrics", promhttp.Handler())
+
+	r.Get("/", app.homePage)
 
 	return r
 }

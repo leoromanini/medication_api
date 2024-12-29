@@ -152,6 +152,33 @@ func (app *application) medicationDelete(w http.ResponseWriter, r *http.Request)
 }
 
 func (app *application) healthCheck(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
 	w.Write([]byte(`{"status": "ok"}`))
+}
+
+type HomePageResponse struct {
+	Name          string            `json:"name"`
+	Version       string            `json:"version"`
+	Description   string            `json:"description"`
+	Endpoints     map[string]string `json:"endpoints"`
+	Documentation string            `json:"documentation"`
+	UsageExamples string            `json:"usage_examples"`
+}
+
+func (app *application) homePage(w http.ResponseWriter, r *http.Request) {
+	response := HomePageResponse{
+		Name:        "Medications API",
+		Version:     "0.0.1",
+		Description: "This is the REST API for Medications",
+		Endpoints: map[string]string{
+			"/v1/medications": "CRUD operations for medications",
+			"/health":         "API Healthcheck",
+			"/metrics":        "API metrics for Prometheus",
+		},
+		Documentation: "https://github.com/leoromanini/medication_api",
+		UsageExamples: "https://github.com/leoromanini/medication_api/tree/main/_examples",
+	}
+
+	if err := json.NewEncoder(w).Encode(response); err != nil {
+		http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+	}
 }

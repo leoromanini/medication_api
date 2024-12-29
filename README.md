@@ -21,9 +21,12 @@ make run
 ### Services list
 - web (Golang REST API)
 - mysql
-- prometheus
+- prometheus (available at http://localhost:9090)
 
 ## API Endpoint : http://localhost:4000
+
+#### / (root)
+* `GET`     : Get API information
 
 #### /medications
 * `GET`     : Get all medications
@@ -118,6 +121,7 @@ make run-locally   # Will start web app locally + docker mysql
 - Support more HTTP methods (e.g: PUT, HEAD, OPTIONS, etc.).
 - Pagination on Lists.
 - Support Authentication.
+- Add custom metrics on Prometheus.
 - Add Swagger.
 - Add E2E tests.
 - Support for HTTPS/TLS.
