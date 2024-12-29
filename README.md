@@ -28,11 +28,11 @@ make run
 #### / (root)
 * `GET`     : Get API information
 
-#### /medications
+#### /v1/medications
 * `GET`     : Get all medications
 * `POST`    : Create a new medication
 
-#### /medications/:id
+#### /v1/medications/:id
 * `GET`     : Get a medications
 * `PATCH`   : Update a medications
 * `DELETE`  : Delete a medications
