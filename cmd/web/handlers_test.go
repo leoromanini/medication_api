@@ -44,6 +44,7 @@ func TestMedicationGet(t *testing.T) {
 			name:     "Non-existent ID",
 			urlPath:  "/v1/medications/10",
 			wantCode: http.StatusNotFound,
+			wantBody: "{\"error\": \"Medication ID Not Found\"}",
 		},
 		{
 			name:     "Negative ID",

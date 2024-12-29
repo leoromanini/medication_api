@@ -18,7 +18,10 @@ func (app *application) clientError(w http.ResponseWriter, status int) {
 }
 
 func (app *application) notFound(w http.ResponseWriter) {
-	app.clientError(w, http.StatusNotFound)
+	h := w.Header()
+	h.Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusNotFound)
+	fmt.Fprintln(w, "{\"error\": \"Medication ID Not Found\"}")
 }
 
 func (app *application) unprocessableEntity(w http.ResponseWriter) {

@@ -56,7 +56,7 @@ stop:
 teardown:
 	docker compose down -v
 
-## run: run the  application locally (outside Docker)
+## run-locally: run the  application locally (outside Docker)
 .PHONY: run-locally
 run-locally: tidy
 	docker compose up mysql -d

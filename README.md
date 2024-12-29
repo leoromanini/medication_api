@@ -115,9 +115,12 @@ make run-locally   # Will start web app locally + docker mysql
 ```
 
 ## Next steps / Possible improvements
-- Pagination.
+- Support more HTTP methods (e.g: PUT, HEAD, OPTIONS, etc.).
+- Pagination on Lists.
 - Support Authentication.
 - Add Swagger.
 - Add E2E tests.
 - Support for HTTPS/TLS.
+- Add history tables (In order to store historic states for objects changes).
 - Add a caching layer.
+- Dependency BOTs on Github (In order to get our dependencies updated automatically).
