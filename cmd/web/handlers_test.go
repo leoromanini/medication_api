@@ -170,18 +170,21 @@ func TestMedicationCreate(t *testing.T) {
 			urlPath:   "/v1/medications",
 			wantCode:  http.StatusBadRequest,
 			inputBody: `{"name": ["invalid"], "dosage": "valid", "form": "valid"}`,
+			wantBody:  `{"error": "Name of type string"}`,
 		},
 		{
 			name:      "Invalid dosage",
 			urlPath:   "/v1/medications",
 			wantCode:  http.StatusBadRequest,
 			inputBody: `{"name": "valid", "dosage": true, "form": "valid"}`,
+			wantBody:  `{"error": "Dosage of type string"}`,
 		},
 		{
 			name:      "Invalid form",
 			urlPath:   "/v1/medications",
 			wantCode:  http.StatusBadRequest,
 			inputBody: `{"name": "valid", "dosage": "valid", "form": 100}`,
+			wantBody:  `{"error": "Form of type string"}`,
 		},
 		{
 			name:      "Empty body",
@@ -300,6 +303,27 @@ func TestMedicationPatch(t *testing.T) {
 			wantCode:  http.StatusUnprocessableEntity,
 			inputBody: `{"name": "foo", "form": "` + strings.Repeat("a", 21) + `"}`,
 			wantBody:  "Name cannot exceed 20 characters",
+		},
+		{
+			name:      "Invalid name",
+			urlPath:   "/v1/medications/1",
+			wantCode:  http.StatusBadRequest,
+			inputBody: `{"name": 100}`,
+			wantBody:  `{"error": "Name of type string"}`,
+		},
+		{
+			name:      "Invalid dosage",
+			urlPath:   "/v1/medications/1",
+			wantCode:  http.StatusBadRequest,
+			inputBody: `{"dosage": 100}`,
+			wantBody:  `{"error": "Dosage of type string"}`,
+		},
+		{
+			name:      "Invalid form",
+			urlPath:   "/v1/medications/1",
+			wantCode:  http.StatusBadRequest,
+			inputBody: `{"form": 100}`,
+			wantBody:  `{"error": "Form of type string"}`,
 		},
 	}
 

@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"net/http"
+	"strings"
 )
 
 type ValidationError struct {
@@ -33,6 +34,14 @@ func appendValidationError(v []ValidationError, field string, message string) []
 		Message: message,
 	})
 	return v
+}
+
+func extractReadableUnmarshalError(err error) string {
+	if readableError := strings.Split(err.Error(), "."); len(readableError) > 1 {
+		return readableError[1]
+	} else {
+		return err.Error()
+	}
 }
 
 func (m *MedicationsRequest) Bind(r *http.Request) error {

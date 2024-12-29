@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"errors"
 	"net/http"
 
@@ -68,6 +69,9 @@ func (app *application) medicationUpdate(w http.ResponseWriter, r *http.Request)
 				app.serverError(w, err)
 				return
 			}
+		}
+		if _, ok := err.(*json.UnmarshalTypeError); ok {
+			app.badRequestByDecode(w, extractReadableUnmarshalError(err))
 			return
 		}
 		app.badRequest(w)
@@ -102,6 +106,9 @@ func (app *application) medicationCreate(w http.ResponseWriter, r *http.Request)
 				app.serverError(w, err)
 				return
 			}
+		}
+		if _, ok := err.(*json.UnmarshalTypeError); ok {
+			app.badRequestByDecode(w, extractReadableUnmarshalError(err))
 			return
 		}
 		app.badRequest(w)

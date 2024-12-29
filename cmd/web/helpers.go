@@ -30,6 +30,13 @@ func (app *application) unprocessableEntity(w http.ResponseWriter) {
 	w.WriteHeader(http.StatusUnprocessableEntity)
 }
 
+func (app *application) badRequestByDecode(w http.ResponseWriter, m string) {
+	h := w.Header()
+	h.Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusBadRequest)
+	fmt.Fprintln(w, "{\"error\": \""+m+"\"}")
+}
+
 func (app *application) badRequest(w http.ResponseWriter) {
 	app.clientError(w, http.StatusBadRequest)
 }

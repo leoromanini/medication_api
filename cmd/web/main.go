@@ -19,7 +19,8 @@ type application struct {
 
 func main() {
 	addr := flag.String("addr", "0.0.0.0:4000", "HTTP network address")
-	dsn := flag.String("dsn", "web:password@tcp(mysql:3306)/healthcare?parseTime=true", "MySQL data source name")
+	// dsn := flag.String("dsn", "web:password@tcp(mysql:3306)/healthcare?parseTime=true", "MySQL data source name")
+	dsn := flag.String("dsn", "web:password@tcp/healthcare?parseTime=true", "MySQL data source name")
 
 	flag.Parse()
 
