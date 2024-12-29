@@ -44,6 +44,8 @@ func extractReadableUnmarshalError(err error) string {
 	}
 }
 
+var validFormInputs = []string{"Tablet", "Capsule", "Liquid"}
+
 func (m *MedicationsRequest) Bind(r *http.Request) error {
 	if m.Medications == nil {
 		return errors.New("missing Medications fields")
@@ -71,6 +73,10 @@ func (m *MedicationsRequest) Bind(r *http.Request) error {
 
 	if len(m.Medications.Form) > 20 {
 		m.validationsErrors = appendValidationError(m.validationsErrors, "form", "Name cannot exceed 20 characters")
+	}
+
+	if !contains(m.Medications.Form, validFormInputs) {
+		m.validationsErrors = appendValidationError(m.validationsErrors, "form", "Form expects one of the following values: "+strings.Join(validFormInputs, ", "))
 	}
 
 	if len(m.validationsErrors) > 0 {

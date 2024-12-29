@@ -30,3 +30,12 @@ func (app *application) badRequestByDecode(w http.ResponseWriter, m string) {
 func (app *application) badRequest(w http.ResponseWriter) {
 	http.Error(w, "", http.StatusBadRequest)
 }
+
+func contains(value string, list []string) bool {
+	for _, v := range list {
+		if v == value {
+			return true
+		}
+	}
+	return false
+}
