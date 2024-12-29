@@ -92,6 +92,7 @@ make run-locally   # Will start web app locally + docker mysql
 │   ├── middlewares.go              - middlewares definitons
 │   ├── middlewares_test.go         - middlewares unity tests
 │   ├── main.go                     - app entrypoint
+│   ├── metrics.go                  - prometheus custom metrics definitions
 │   ├── routes.go                   - routes definition
 │   ├── validator.go                - business rules validations
 │   ├── testutils_test.go           - unity tests utils

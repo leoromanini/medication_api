@@ -42,8 +42,8 @@ services:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
     networks:
       - monitoring
-    # depends_on:
-    #   - web
+    depends_on:
+      - web
 
 volumes:
   mysql_data:

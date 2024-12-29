@@ -16,7 +16,7 @@ CREATE INDEX idx_medications_is_active ON medications(is_active);
 -- TODO: In a real case scenario, index would demand more analisys to be set;
 
 -- Add some dummy records so our application is already populated when start
--- Holpefully this will give a little help when testing
+-- Holpefully this will give a little help when manually testing
 INSERT INTO medications (name, dosage, form) VALUES (
     'Paracetamol',
     '500 mg',

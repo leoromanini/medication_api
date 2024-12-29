@@ -5,6 +5,7 @@ import (
 	"errors"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/leoromanini/medication_api/internal/models"
@@ -47,5 +48,33 @@ func (app *application) medicationCtx(next http.Handler) http.Handler {
 
 		ctx := context.WithValue(r.Context(), medicationContextKey, medication)
 		next.ServeHTTP(w, r.WithContext(ctx))
+	})
+}
+
+type responseWriter struct {
+	http.ResponseWriter
+	statusCode int
+}
+
+func (rw *responseWriter) WriteHeader(code int) {
+	rw.statusCode = code
+	rw.ResponseWriter.WriteHeader(code)
+}
+
+func PrometheusMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		ww := &responseWriter{w, http.StatusOK}
+
+		start := time.Now()
+
+		next.ServeHTTP(ww, r)
+
+		path := r.URL.Path
+		method := r.Method
+		status := ww.statusCode
+
+		apiRequestCount.WithLabelValues(path, method, http.StatusText(status)).Inc()
+		duration := time.Since(start).Seconds()
+		apiRequestDuration.WithLabelValues(path, method, http.StatusText(status)).Observe(duration)
 	})
 }

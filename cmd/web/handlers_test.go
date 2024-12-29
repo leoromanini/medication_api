@@ -393,3 +393,13 @@ func TestHomePage(t *testing.T) {
 	code, _, _ := ts.request(t, http.MethodGet, "/", strings.NewReader(""))
 	assert.Equal(t, http.StatusOK, code)
 }
+
+func TestMetrics(t *testing.T) {
+	t.Parallel()
+
+	app := newTestApplication(t)
+	ts := newTestServer(t, app.routes())
+
+	code, _, _ := ts.request(t, http.MethodGet, "/metrics", strings.NewReader(""))
+	assert.Equal(t, http.StatusOK, code)
+}

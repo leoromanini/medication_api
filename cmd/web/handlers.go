@@ -179,6 +179,6 @@ func (app *application) homePage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := json.NewEncoder(w).Encode(response); err != nil {
-		http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+		app.serverError(w, err)
 	}
 }
