@@ -21,7 +21,7 @@ make run
 ### Services list
 - web (Golang REST API)
 - mysql
-- prometheus (available at http://localhost:9090)
+- prometheus
 
 ## API Endpoint : http://localhost:4000
 
@@ -118,11 +118,15 @@ make run-locally   # Will start web app locally + docker mysql
     └── go.yml                  - simple Go CI on Github Actions
 ```
 
+## Prometheus Endpoint : http://localhost:9090
+Custom metrics:
+- `api_requests_total`: Requests count per endpoint
+- `api_request_duration_seconds`: Requests duration per endpoint
+
 ## Next steps / Possible improvements
 - Support more HTTP methods (e.g: PUT, HEAD, OPTIONS, etc.).
 - Pagination on Lists.
 - Support Authentication.
-- Add custom metrics on Prometheus.
 - Add Swagger.
 - Add E2E tests.
 - Support for HTTPS/TLS.
