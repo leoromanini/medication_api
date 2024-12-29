@@ -186,6 +186,21 @@ func TestMedicationCreate(t *testing.T) {
 			urlPath:   "/v1/medications",
 			wantCode:  http.StatusUnprocessableEntity,
 			inputBody: `{"dosage": "valid", "form": "valid"}`,
+			wantBody:  "Name is a required field",
+		},
+		{
+			name:      "Required dosage validation",
+			urlPath:   "/v1/medications",
+			wantCode:  http.StatusUnprocessableEntity,
+			inputBody: `{"name": "valid", "form": "valid"}`,
+			wantBody:  "Dosage is a required field",
+		},
+		{
+			name:      "Required form validation",
+			urlPath:   "/v1/medications",
+			wantCode:  http.StatusUnprocessableEntity,
+			inputBody: `{"name": "valid", "dosage": "valid"}`,
+			wantBody:  "Form is a required field",
 		},
 		{
 			name:      "Exceed name validation",
@@ -271,6 +286,21 @@ func TestMedicationPatch(t *testing.T) {
 			urlPath:   "/v1/medications/1",
 			wantCode:  http.StatusUnprocessableEntity,
 			inputBody: `{"name": ""}`,
+			wantBody:  "Name is a required field",
+		},
+		{
+			name:      "Required dosage validation",
+			urlPath:   "/v1/medications/1",
+			wantCode:  http.StatusUnprocessableEntity,
+			inputBody: `{"dosage": ""}`,
+			wantBody:  "Dosage is a required field",
+		},
+		{
+			name:      "Required form validation",
+			urlPath:   "/v1/medications/1",
+			wantCode:  http.StatusUnprocessableEntity,
+			inputBody: `{"form": ""}`,
+			wantBody:  "Form is a required field",
 		},
 		{
 			name:      "Exceed name validation",

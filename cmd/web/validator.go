@@ -53,6 +53,14 @@ func (m *MedicationsRequest) Bind(r *http.Request) error {
 		m.validationsErrors = appendValidationError(m.validationsErrors, "name", "Name is a required field")
 	}
 
+	if m.Medications.Dosage == "" {
+		m.validationsErrors = appendValidationError(m.validationsErrors, "dosage", "Dosage is a required field")
+	}
+
+	if m.Medications.Form == "" {
+		m.validationsErrors = appendValidationError(m.validationsErrors, "form", "Form is a required field")
+	}
+
 	if len(m.Medications.Name) > 100 {
 		m.validationsErrors = appendValidationError(m.validationsErrors, "name", "Name cannot exceed 100 characters")
 	}

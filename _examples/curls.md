@@ -1,4 +1,4 @@
-#### /medications
+#### /v1/medications
 * `GET`     : Get all medications
 
 ```bash
@@ -50,7 +50,7 @@ curl --location 'http://localhost:4000/v1/medications' \
 }
 ```
 
-#### /medications/:id
+#### /v1/medications/:id
 * `GET`     : Get a medications
 ```bash
 curl --location 'http://localhost:4000/v1/medications/2'
